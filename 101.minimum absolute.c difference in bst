@@ -1,0 +1,38 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+int getMinimumDifference(struct TreeNode* root){
+    int minDiff = INT_MAX; // Initialize the minimum difference.
+    int prevVal = -1;      // Initialize the previous node's value.
+
+    // Helper function for in-order traversal.
+    void inOrder(struct TreeNode* node) {
+        if (node == NULL) {
+            return;
+        }
+
+        // Recursively traverse the left subtree.
+        inOrder(node->left);
+
+        // Calculate the absolute difference with the previous node's value.
+        if (prevVal != -1) {
+            minDiff = (node->val - prevVal < minDiff) ? (node->val - prevVal) : minDiff;
+        }
+
+        // Update the previous node's value.
+        prevVal = node->val;
+
+        // Recursively traverse the right subtree.
+        inOrder(node->right);
+    }
+
+    // Start the in-order traversal from the root.
+    inOrder(root);
+
+    return minDiff;
+}
